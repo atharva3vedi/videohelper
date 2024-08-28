@@ -28,7 +28,8 @@ def load_and_split_documents(directory):
     loader = DirectoryLoader(directory)
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=20)
-    return text_splitter.split_documents(documents)
+    split_docs = text_splitter.split_documents(documents)
+    return split_docs
 
 def generate_id(text):
     return str(uuid.uuid4())
@@ -38,10 +39,8 @@ def index_documents(docs):
     index = pc.Index("mro",host=PINECONE_HOST)
     for doc in docs:
         text = doc.page_content
+        logger.info(text)
         embedding = cohere_embeddings.embed([text],input_type="classification")[0]
-        print(len(embedding))    
-        print(type(doc))
         doc_id = generate_id(text)
-        print("log1")
-        index.upsert(vectors =  [(doc_id, embedding, doc.metadata)],namespace="ns1")
-        print("log2")
+        metadata = {"source": doc.metadata.get('source', 'unknown'),"text":text}
+        index.upsert(vectors =  [(doc_id, embedding, metadata)],namespace="ns1")

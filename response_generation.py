@@ -30,14 +30,16 @@ You are an AI assistant that helps users with their queries. You provide concise
 '''
 
 # Function to generate response
-def generate_response(human_input, memory):
-    prompt = ChatPromptTemplate.from_messages(
-        [
-            SystemMessage(content=system_prompt),
-            MessagesPlaceholder(variable_name="chat_history"),
-            HumanMessagePromptTemplate.from_template("{human_input}"),
-        ]
-    )
+def generate_response(human_input, context, memory):
+    context_text = "\n".join([f"Source: {item['source']}\nText: {item.get('text', 'No text available')}" for item in context])
+    
+    prompt = ChatPromptTemplate.from_messages([
+        SystemMessage(content=system_prompt),
+        MessagesPlaceholder(variable_name="chat_history"),
+        HumanMessagePromptTemplate.from_template(
+            "Context:\n{context_and_input}"
+        ),
+    ])
     
     conversation_chain = LLMChain(
         llm=groq_chat,
@@ -45,4 +47,5 @@ def generate_response(human_input, memory):
         memory=memory,
     )
     
-    return conversation_chain.predict(human_input=human_input)
+    context_and_input = f"{context_text}\n\nHuman: {human_input}"
+    return conversation_chain.predict(context_and_input=context_and_input)
