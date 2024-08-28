@@ -20,13 +20,10 @@ pc=pinecone.Pinecone(api_key=PINECONE_API_KEY)
 
 # Retrieve documents
 def retrieve_documents(query, index_name, top_k=5):
-    logger.info(query)
+    logger.info(type(query))
     index = pc.Index(index_name, host=PINECONE_HOST)
-    query_embedding = cohere_embeddings.embed(texts=[query], input_type="search_query")[0]
-    logger.info(query_embedding)
-    results = index.query(vector=query_embedding, top_k=top_k,include_metadata=True,namespace="ns1")
-    logger.info(results)
-    matches = results['matches']
-    logger.info(matches)
+    query_embedding = cohere_embeddings.embed([query], input_type="search_query")[0]
+    results = index.query(vector=query_embedding, top_k=top_k)
+    matches = results.get('matches', [])
     return [match['metadata'] for match in matches]
 
