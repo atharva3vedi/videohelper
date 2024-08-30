@@ -102,7 +102,7 @@ with chat_container:
     # Display the chat messages with custom CSS for scrolling and text styling
     components.html(
         f"""
-        <div id="chat-window" style="height:600px; width:95%;color: white; overflow-y:auto; padding:10px; border:1px solid #ccc; border-radius:5px; font-family: 'Arial', sans-serif; font-size:16px; line-height:1.6;">
+        <div id="chat-window" style="height:500px; width:95%;color: black; overflow-y:auto; padding:10px; border:1px solid #ccc; border-radius:5px; font-family: 'Arial', sans-serif; font-size:16px; line-height:1.6;">
             {chat_messages}
         </div>
         <script>
@@ -110,7 +110,7 @@ with chat_container:
         chatWindow.scrollTop = chatWindow.scrollHeight;
         </script>
         """,
-        height=600,
+        height=500,
     )
 
     # Clear chat button
