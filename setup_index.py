@@ -16,7 +16,7 @@ COHERE_API_KEY = os.getenv('COHERE_API_KEY')
 PINECONE_API_KEY = os.getenv('PINECONE_API_KEY')
 PINECONE_HOST =  os.getenv('PINECONE_HOST')
 
-def setup_index(directory='data', index_name='mro'):
+def setup_index(directory='data', index_name='mro4'):
     try:
         # Step 1: Load and split the documents
         logger.info("Loading and splitting documents from directory: %s", directory)

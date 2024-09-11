@@ -5,6 +5,7 @@ import logging
 import pinecone
 import pdfplumber
 import base64
+import time
 from PIL import Image
 from io import BytesIO
 from dotenv import load_dotenv
@@ -30,17 +31,6 @@ index_name = "mro4"
 # Regular expressions for figure and page number detection
 figure_pattern = re.compile(r'Fig\.\s*\d+-\d+', re.IGNORECASE)
 page_number_pattern = re.compile(r'Page\s*\d+-\d+', re.IGNORECASE)
-
-# Convert PDF page to a base64-encoded image
-def convert_page_to_base64_image(page):
-    image = page.to_image(resolution=150)
-    img_bytes = BytesIO()
-    image.original.save(img_bytes, format='JPEG')
-    img_bytes.seek(0)
-
-    # Encode image as base64
-    img_base64 = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
-    return img_base64
 
 # Load and split documents
 def load_and_split_documents(directory):
@@ -87,6 +77,7 @@ def index_documents(docs):
     for doc in docs:
         text = doc.page_content
         
+        #time.sleep(2)
         # Generate embedding and document ID
         embedding = cohere_embeddings.embed([text], input_type="classification")[0]
         doc_id = generate_id(text)
