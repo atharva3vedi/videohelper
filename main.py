@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 load_dotenv()
 
 # Set page configuration
-st.set_page_config(page_title="Airline Manual Bot", page_icon="✈️", layout="wide")
+st.set_page_config(page_title="Aircraft Maintenance Copilot", page_icon="✈️", layout="wide")
 
 # Model options for the sidebar
 model_options = {
@@ -58,7 +58,7 @@ if 'memory' not in st.session_state:
     st.session_state.memory = ConversationBufferWindowMemory(k=5, memory_key="chat_history", return_messages=True)
 
 # Set up the Streamlit interface
-st.title("Airline Manual Bot")
+st.title("Aircraft Maintenance Copilot")
 
 # Placeholder for chat history
 if 'chat_history' not in st.session_state:
