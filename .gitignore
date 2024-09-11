@@ -3,3 +3,5 @@
 myenv/
 PiPfile
 Pipfile.lock
+show_image.py
+upload_image.py
